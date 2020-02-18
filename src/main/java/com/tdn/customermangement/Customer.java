@@ -1,4 +1,4 @@
-package customermangement;
+package com.tdn.customermangement;
 
 public class Customer {
 	private int id;

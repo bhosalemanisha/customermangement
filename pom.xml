@@ -7,7 +7,28 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>customermangement Maven Webapp</name>
   <url>http://maven.apache.org</url>
+
   <dependencies>
+  
+<dependency>
+<groupId>javax.servlet.jsp</groupId>
+<artifactId>jsp-api</artifactId>
+<version>2.1</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+<dependency>
+<groupId>javax.servlet</groupId>
+<artifactId>javax.servlet-api</artifactId>
+<version>3.0.1</version>
+<scope>provided</scope>
+</dependency>
+<dependency>
+<groupId>javax.servlet</groupId>
+<artifactId>jstl</artifactId>
+<version>1.2</version>
+
+</dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -16,6 +37,25 @@
     </dependency>
   </dependencies>
   <build>
-    <finalName>customermangement</finalName>
+  <plugins>
+	<plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-compiler-plugin</artifactId>
+		<version>3.5.1</version>
+		<configuration>
+			<source>1.8</source>
+			<target>1.8</target>
+		</configuration>
+	</plugin>
+	<plugin>
+	<artifactId>maven-war-plugin</artifactId>
+	<version>2.6</version>
+	<configuration>
+	<warSourceDirectory>WebContent</warSourceDirectory>
+	<failOnMissingWebXml>false</failOnMissingWebXml>
+	</configuration>
+	</plugin>
+</plugins>
+ <finalName>customermangement</finalName>
   </build>
 </project>
