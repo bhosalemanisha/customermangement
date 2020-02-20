@@ -9,9 +9,18 @@ public class Databaseutility {
 	final  String DB_USER="root";
 	final  String DB_PASSWORD="";
   
-	public Connection getconnection() throws ClassNotFoundException, SQLException {
-		Class.forName( "com.mysql.jdbc.Driver");
-		Connection con =DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+	public Connection getconnection()  {
+		Connection con=null;
+		
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			 con =DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			System.out.println(con);
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return con;
 	}
 

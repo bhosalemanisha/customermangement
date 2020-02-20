@@ -13,77 +13,39 @@ import com.tdn.customermangement.Customer;
 import com.tdn.customerutility.Databaseutility;
 
 public class CustomerDAOImp implements CustomerDAOI {
-	Databaseutility db=new Databaseutility();
+	Databaseutility  dbutility=null;
+	Connection con=null;
+
 	@Override
 	public List<Customer> getallcustomer() {
-		List<Customer> customerlist = new ArrayList<>();
-		try {
-    		
-            
-			Connection con =db.getconnection();			
-		    Statement st = con.createStatement();
-			String query="select * from customertbl";
-			ResultSet rs= st.executeQuery(query);
-			ResultSetMetaData rsmd= rs.getMetaData();		
-			
+		dbutility = new Databaseutility();
+		con=dbutility.getconnection();
+		ArrayList<Customer> customerlist=null;
+		if (con!=null) {
+			try {
+			customerlist = new  ArrayList<>();
+			PreparedStatement ps = con.prepareStatement("select * from customertbl");
+			ResultSet rs =ps.executeQuery();
 			while (rs.next()) {
-				Customer cp = new Customer();
-				cp.setId(rs.getInt(1));
-				cp.setName(rs.getString(2));
-				cp.setAddress(rs.getString(3));
-				cp.setNumber(rs.getString(4));
-		
-				customerlist.add(cp);
+				Customer customer = new Customer(rs.getInt(1), rs.getString(2),rs.getString(3), rs.getString(4));
+				
+				customerlist.add(customer);
+				//System.out.println(customerlist);
 							}
 			
 		
 			 	con.close();
-		} catch (ClassNotFoundException e) {
-						// TODO: handle exception
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			// TODO: handle exception
-	}
-		
-		
-		return customerlist;
-		
-		
-	
-	}
-	@Override
-	public int insertcustomer(Customer customer) {
-		int flag =0;
-		try {
-				System.out.println(customer.getName());
-				
-				Connection con=db.getconnection();
-				System.out.println(con);
-				PreparedStatement ps= con.prepareStatement("INSERT INTO `customertbl`( `custname`, `address`, `moblienumber`) VALUES (?,?,?) ");
-				ps.setString(1,customer.getName());
-				ps.setString(2,customer.getAddress());
-				ps.setString(3, customer.getNumber());
-				int s=ps.executeUpdate();
-				//System.out.println(s);
-				if (s==1){
-					flag=1;
-					
-				} else {
-
-					flag=0;
 				}
-
-				con.close();
-				
-	} catch (ClassNotFoundException e) {
 		
-		// TODO: handle exception
-	}catch (SQLException e) {
-		// TODO: handle exception
+			}
+			return customerlist;
+		
+		
+	
+		}
 	}
-		return flag;
 	
 
-		
-	}
 
-}

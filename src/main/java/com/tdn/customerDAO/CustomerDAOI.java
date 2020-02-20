@@ -6,7 +6,7 @@ import com.tdn.customermangement.Customer;
 
 public interface CustomerDAOI {
 	public List<Customer>getallcustomer() ;
-	public int insertcustomer (Customer customer);
+	//public int insertcustomer (Customer customer);
 	
 
 }

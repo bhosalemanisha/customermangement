@@ -1,19 +1,18 @@
 package com.tdn.customercontroller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.tdn.customerDAO.CustomerDAOImp;
 import com.tdn.customermangement.Customer;
 
+@WebServlet("/customer")
 public class CustomerServlet1 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -25,10 +24,13 @@ public class CustomerServlet1 extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-        String str = request.getServletPath();
+       // String str = request.getServletPath();
+		String action = request.getParameter("action");
         try {
-            switch (str) {
-                case "/new":
+            switch (action) {
+                case "listUser":
+                	listUser(request, response);
+
                    //showNewForm(request, response);
                     break;
                 case "/inseart":
@@ -43,26 +45,20 @@ public class CustomerServlet1 extends HttpServlet {
                 case "/update":
                    // updateUser(request, response);
                     break;
-                default:
-                    listUser(request, response);
-                    break;
+                default	:
+                  break;
             }
         } catch (SQLException ex) {
             throw new ServletException(ex);
         }
     }
-
-
-
-		
-
 	private void insertcustomer(HttpServletRequest request, HttpServletResponse response)  throws SQLException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
 		String name = request.getParameter("name");
         String address = request.getParameter("address");
         String mobilenumber= request.getParameter("mobilenumber");
         Customer newcustomer = new Customer(id, name, address, mobilenumber);
-        customerimp.insertcustomer(newcustomer);
+      //  customerimp.insertcustomer(newcustomer);
         response.sendRedirect("customerlist");
 		
 	}
@@ -70,7 +66,9 @@ public class CustomerServlet1 extends HttpServlet {
 	private void listUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
 		
 		  List < Customer > customers =customerimp.getallcustomer();
+		  
 	        request.setAttribute("listUser", customers);
+	       // System.out.println(customers);
 	        RequestDispatcher dispatcher = request.getRequestDispatcher("list-all.jsp");
 	        dispatcher.forward(request, response);
 	}
